@@ -81,7 +81,7 @@ INSERT INTO County VALUES('Augusta', 'VA', 960.1, 6.1, 42004, 77.8, 35.9);
 INSERT INTO Facility VALUES(14639511, 'MP Durham, LLC','2115 East Club Boulevard', 'Durham', 'Durham' ,'NC',	27704, NULL);
 INSERT INTO Facility VALUES(8051011, 'Duke University' ,'200 Facility Center', 'Durham', 'Durham', 'NC', 27710, 'Colleges, Universities, and Professional Schools');
 INSERT INTO Facility VALUES(8051711, 'Carolina Sunrock LLC - Muirhead Distribution Center','1503 Camden Avenue', 'Greensville', 'Brunswick','NC', 27704,'Ready-Mix Concrete Manufacturing');
-INSERT INTO Facility VALUES(8052311, 'Cree Inc - Silicon Dr', '4600 Silicon Drive', 'Morrisville', 'Forsythe','NC',27709 ,'Semiconductor and Related Device Manufacturing' );				
+INSERT INTO Facility VALUES(8052311, 'Cree Inc - Silicon Dr', '4600 Silicon Drive', 'Morrisville', 'Forsyth','NC',27709 ,'Semiconductor and Related Device Manufacturing' );				
 INSERT INTO Facility VALUES(2255111, ' LOS ANGELES INT AIRPORT' ,'1 World Way', 'Los Angeles', 'Los Angeles', 'CA', 90045, 'Other Airport Operations');
 INSERT INTO Facility VALUES(4073511, 'BP WEST COAST PROD.LLC', '2350 E 223RD ST', 'San Francisco', 'Marin', 'CA', 90749, 'Petroleum Refinery' );
 INSERT INTO Facility VALUES(4086111, 'CHEVRON PRODUCTS CO.', 'W EL SEGUNDO BLVD', 'Washington','Arlington', 'VA', 60245, NULL);
