@@ -1,5 +1,5 @@
 -------------------------------------------------- 
--- Run this script using "psql -af sample.sql" 
+-- Run this script using "psql -af setup.sql" 
 -- to create and load the sample database
 --------------------------------------------------
 
