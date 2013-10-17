@@ -57,7 +57,7 @@ CREATE TRIGGER TG_FacilityCounty
 CREATE OR REPLACE FUNCTION TF_FacilityCounty() RETURNS TRIGGER AS $$
 BEGIN
 	IF (NEW.county NOT IN (SELECT name FROM County WHERE County.State = NEW.State)) THEN
-		RAISE EXCEPTION('Facility must be in a valid county.');
+		RAISE EXCEPTION 'Facility must be in a valid county.';
 	END IF;
 END
 $$ LANGUAGE plpgsql;
