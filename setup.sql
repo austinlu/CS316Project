@@ -49,7 +49,7 @@ CREATE TABLE FacilityPollution (
 
 
 CREATE TRIGGER TG_FacilityCounty
-	INSTEAD OF INSERT OR UPDATE
+	BEFORE INSERT OR UPDATE
 	ON Facility
 	FOR EACH ROW
 	EXECUTE PROCEDURE TF_FacilityCounty();
@@ -59,6 +59,7 @@ BEGIN
 	IF (NEW.county NOT IN (SELECT name FROM County WHERE County.State = NEW.State)) THEN
 		RAISE EXCEPTION 'Facility must be in a valid county.';
 	END IF;
+	RETURN NEW;
 END
 $$ LANGUAGE plpgsql;
 
