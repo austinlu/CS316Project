@@ -3,6 +3,7 @@
 -- to create and load the sample database
 --------------------------------------------------
 
+DROP TRIGGER TF_FacilityCounty;
 DROP TABLE State cascade;
 DROP TABLE County;
 DROP TABLE Facility cascade;
