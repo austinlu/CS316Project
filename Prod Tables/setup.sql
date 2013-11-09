@@ -1,7 +1,6 @@
 -------------------------------------------------- 
 -- Run this script using "psql -af setup.sql" 
 -- to create and load production database
--- FIXME: Do full joins in setupProd for facilitypollution prod table, not natural joins!
 -------------------------------------------------- 
 
 TRIGGER TF_FacilityCounty;

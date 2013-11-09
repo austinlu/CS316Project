@@ -3,8 +3,7 @@
 -- to create and load the sample database
 
 --TWO ASSUMPTIONS:
-
---All facilities have a county and state
+--All valid facilities have a county and state
 --All county's are similarly named
 --------------------------------------------------
 
@@ -310,11 +309,11 @@ SELECT 	EIS_ID,pollutantVol
 FROM rawso where rawso.EIS_ID in (select EIS_ID from facility);	
 
 insert into facilitypollution(eis_id,mercury, carbon_monoxide, lead ,oxides_of_nitrogen,particulate_matter_10,sulfur_dioxide)
-	select * from eis2hg natural join eis2co
-						natural join eis2pb
-						natural join eis2no
-						natural join eis2pm
-						natural join eis2so;
+	select * from eis2hg natural full join eis2co
+						natural full join eis2pb
+						natural full join eis2no
+						natural full join eis2pm
+						natural full join eis2so;
 						
 \COPY county TO '/home/azureuser/proj/countyTable.csv' DELIMITER ',' CSV;
 \COPY state TO '/home/azureuser/proj/stateTable.csv' DELIMITER ',' CSV;
