@@ -1,0 +1,1 @@
+Make sure the database information in mysite/settings.py is correct for the machine you are working on. For example, I am using sqlite3 and a file on my local account right now, but you should point it to use PostgreSQL and provide your credentials if using it on the VM.
