@@ -1,0 +1,25 @@
+{% extends "pollugraphics/base.html" %}
+
+<!-- county name and state -->
+{% block heading %}{{county_name}}, {{county_state_name}}{% endblock %}
+
+{% block content %}
+
+<!-- county demographics data -->
+<h2>Demographic Data</h2>
+
+Population density:
+Median income:
+Unemployment rate:
+% with high school degree:
+% with bachelors degree:
+
+<!-- county pollution data -->
+<h2>Industrial Pollution Data</h2>
+
+Carbon monoxide:
+
+<!-- compare to 3 similar counties  -->
+<h2>Compare to</h2>
+
+{% endblock %}
