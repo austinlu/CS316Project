@@ -1,0 +1,323 @@
+--------------------------
+-- Test production queries
+--------------------------
+-- select the names of all counties in a particular state
+-- used for populating the dropdown menu where user selects location
+SELECT name
+FROM County
+WHERE state = 'NC'
+ORDER BY name ASC;
+     name     
+--------------
+ Alamance
+ Alexander
+ Alleghany
+ Anson
+ Ashe
+ Avery
+ Beaufort
+ Bertie
+ Bladen
+ Brunswick
+ Buncombe
+ Burke
+ Cabarrus
+ Caldwell
+ Camden
+ Carteret
+ Caswell
+ Catawba
+ Chatham
+ Cherokee
+ Chowan
+ Clay
+ Cleveland
+ Columbus
+ Craven
+ Cumberland
+ Currituck
+ Dare
+ Davidson
+ Davie
+ Duplin
+ Durham
+ Edgecombe
+ Forsyth
+ Franklin
+ Gaston
+ Gates
+ Graham
+ Granville
+ Greene
+ Guilford
+ Halifax
+ Harnett
+ Haywood
+ Henderson
+ Hertford
+ Hoke
+ Hyde
+ Iredell
+ Jackson
+ Johnston
+ Jones
+ Lee
+ Lenoir
+ Lincoln
+ Macon
+ Madison
+ Martin
+ McDowell
+ Mecklenburg
+ Mitchell
+ Montgomery
+ Moore
+ Nash
+ New Hanover
+ Northampton
+ Onslow
+ Orange
+ Pamlico
+ Pasquotank
+ Pender
+ Perquimans
+ Person
+ Pitt
+ Polk
+ Randolph
+ Richmond
+ Robeson
+ Rockingham
+ Rowan
+ Rutherford
+ Sampson
+ Scotland
+ Stanly
+ Stokes
+ Surry
+ Swain
+ Transylvania
+ Tyrrell
+ Union
+ Vance
+ Wake
+ Warren
+ Washington
+ Watauga
+ Wayne
+ Wilkes
+ Wilson
+ Yadkin
+ Yancey
+(100 rows)
+
+-- select aggregate pollution and demographic data
+-- for a particular county
+SELECT County.name, County.state, SUM(carbon_monoxide) AS CO, SUM(oxides_of_nitrogen) AS NO, SUM(sulfur_dioxide) AS SO2, SUM(particulate_matter_10) AS PM10, SUM(lead) AS lead, SUM(mercury) AS mercury, population_density, unemployment_rate, median_income, percent_HS, percent_bachelors
+FROM County, Facility, FacilityPollution
+WHERE Facility.county = County.name
+AND Facility.state = County.state
+AND Facility.EIS_ID = FacilityPollution.EIS_ID
+GROUP BY County.name, County.state
+HAVING County.name = 'Durham'
+AND County.state = 'NC';
+  name  | state |   co   |    no    |   so2    |  pm10   |    lead    | mercury | population_density | unemployment_rate | median_income | percent_hs | percent_bachelors 
+--------+-------+--------+----------+----------+---------+------------+---------+--------------------+-------------------+---------------+------------+-------------------
+ Durham | NC    | 282.74 | 282.9919 | 101.3113 | 22.6022 | 0.01545851 | 0.51235 |              935.7 |               8.1 |         50078 |       86.9 |              44.3
+(1 row)
+
+-- select counties with aggregate lead pollution greater than 5 tons
+-- display their unemployment rate 
+SELECT County.name, County.state, County.unemployment_rate, SUM(lead)
+FROM County, Facility, FacilityPollution
+WHERE County.name = Facility.county
+	AND County.state = Facility.state
+	AND Facility.EIS_ID = FacilityPollution.EIS_ID
+GROUP BY County.name, County.state
+HAVING SUM(lead) > 5
+ORDER BY County.unemployment_rate DESC;
+       name       | state | unemployment_rate |     sum     
+------------------+-------+-------------------+-------------
+ Northwest Arctic | AK    |              16.6 |  6.32000939
+ Lake             | IN    |               9.5 |  7.88714168
+ Gila             | AZ    |               9.5 |  8.87481438
+ Iron             | MO    |               8.1 |   17.990273
+ Beaver           | PA    |               7.5 |  6.51231442
+ Maricopa         | AZ    |               7.5 |  5.02410341
+ Jefferson        | MO    |               7.3 | 21.46277769
+ Franklin         | PA    |               7.1 |  8.73990932
+(8 rows)
+
+-- select the top 10 counties with highest population_density
+-- and display corresponding pollution info
+-- used for observing whether there is a correlation between population density
+-- and pollution
+SELECT County.name, County.state, SUM(carbon_monoxide) AS CO, SUM(oxides_of_nitrogen) AS NO, SUM(sulfur_dioxide) AS SO2, SUM(particulate_matter_10) AS PM10, SUM(lead) AS lead, SUM(mercury) AS mercury
+FROM County, Facility, FacilityPollution
+WHERE County.name = Facility.county
+	AND County.state = Facility.state
+	AND Facility.EIS_ID = FacilityPollution.EIS_ID
+GROUP BY County.name, County.state
+ORDER BY County.population_density DESC
+LIMIT 10;
+     name      | state |     co     |        no        |    so2     |       pm10       |     lead     |    mercury    
+---------------+-------+------------+------------------+------------+------------------+--------------+---------------
+ New York      | NY    |    1556.82 |       3463.87315 | 1281.76111 |      376.7661176 |  0.082721802 |  15.680646576
+ Kings         | NY    |   455.9215 |       1520.41542 | 109.353667 |         79.61609 | 0.0387343962 | 93.5072789537
+ Bronx         | NY    |     481.61 |          565.566 |  123.05906 |          51.5251 | 0.0059940848 |      3.852882
+ Queens        | NY    | 9386.50561 | 9034.96383250001 | 939.379045 |       637.629878 |   0.22930399 |   11.25546246
+ San Francisco | CA    |    161.574 |        372.85975 |   25.10755 | 88.8062400000003 |   0.00097423 |    0.07409772
+ Hudson        | NJ    |   336.4225 |       1086.65045 | 1083.16091 |         102.6259 |     0.220558 |     65.314057
+ Suffolk       | MA    |  3740.0273 |        3292.9908 |  330.80456 |       217.257394 |  0.194881058 |    1.65297865
+ Philadelphia  | PA    |  2502.7929 |       2567.86295 |  730.51849 |       1133.08228 |   0.30276039 |    15.4950326
+ Richmond      | NY    |     771.43 |         834.1919 |   12.07262 |          74.7022 |    0.0049665 |    4.75970475
+ Arlington     | VA    |    2299.18 |       1318.46595 |  159.59131 |          38.8061 |     0.085287 |        0.1409
+(10 rows)
+
+-- select the 10 counties with lowest median median_income
+-- and display their pollution data
+SELECT County.name, County.state, SUM(carbon_monoxide) AS CO, SUM(oxides_of_nitrogen) AS NO, SUM(sulfur_dioxide) AS SO2, SUM(particulate_matter_10) AS PM10, SUM(lead) AS lead, SUM(mercury) AS mercury
+FROM County, Facility, FacilityPollution
+WHERE County.name = Facility.county
+	AND County.state = Facility.state
+	AND Facility.EIS_ID = FacilityPollution.EIS_ID
+GROUP BY County.name, County.state
+ORDER BY County.median_income ASC
+LIMIT 10;
+   name    | state |    co     |     no     |    so2    |   pm10    |    lead    | mercury  
+-----------+-------+-----------+------------+-----------+-----------+------------+----------
+ Brooks    | TX    |    182.84 |  276.91028 |  0.177192 |    5.5813 |   0.015435 |         
+ Clay      | KY    |  56.12601 | 43.3559825 |  0.079805 | 15.709018 | 0.00015139 | 9.52e-05
+ Jefferson | MS    |    170.25 |    1520.77 |      0.09 |     12.77 |            |         
+ Jackson   | KY    |           |            |           |    4.0652 |            |         
+ Noxubee   | MS    |  86.25601 | 63.3528125 |  4.024133 | 67.420218 | 0.03356569 |      0.6
+ Claiborne | MS    | 101.15601 | 72.7591925 |   2.46181 | 17.737918 | 0.01189569 |      1.6
+ Sumter    | AL    |  265.1228 |  577.17768 | 160.04133 | 39.406903 |    0.00377 |   0.0147
+ McDowell  | WV    |    7.0036 |      31.55 |      5.13 |     17.09 |  0.0004515 |  0.22899
+ Hancock   | TN    |      0.51 |    0.00278 |  0.000427 |    0.0101 |   0.000657 |         
+ Holmes    | MS    |   7.82601 |  0.0912225 |  0.018335 |  0.160318 | 0.00779769 |         
+(10 rows)
+
+-- select counties with similar demographic data as a particular county
+-- we use median income and Durham, NC here as an example
+-- the median income of Durham, NC is 50078
+SELECT C2.name, C2.state, C2.median_income 
+FROM County AS C1, County AS C2
+WHERE C1.name = 'Durham'
+	AND C1.state = 'NC'
+	AND C1.median_income <= C2.median_income+500
+	AND C1.median_income >= C2.median_income-500
+	AND C2.name <> C1.name;
+        name         | state | median_income 
+---------------------+-------+---------------
+ Brevard             | FL    |         50068
+ Duval               | FL    |         49964
+ Hillsborough        | FL    |         50195
+ Lafayette           | FL    |         49713
+ Orange              | FL    |         49731
+ Chattahoochee       | GA    |         49969
+ Glynn               | GA    |         49828
+ Caribou             | ID    |         49740
+ Ford                | IL    |         50332
+ St Clair            | IL    |         50109
+ Stark               | IL    |         49693
+ Allen               | IN    |         49767
+ Brown               | IN    |         50503
+ Putnam              | IN    |         50165
+ Warren              | IN    |         49615
+ Butler              | IA    |         50052
+ Dubuque             | IA    |         49663
+ Fremont             | IA    |         49934
+ Guthrie             | IA    |         50000
+ Lyon                | IA    |         49938
+ Pottawattamie       | IA    |         49924
+ Story               | IA    |         49733
+ Worth               | IA    |         50540
+ Franklin            | KS    |         50231
+ Haskell             | KS    |         49760
+ Wichita             | KS    |         50324
+ St John The Baptist | LA    |         49671
+ West Baton Rouge    | LA    |         49929
+ Emmet               | MI    |         50269
+ Kandiyohi           | MN    |         49915
+ Kittson             | MN    |         50049
+ Marshall            | MN    |         49636
+ Pope                | MN    |         49599
+ Jackson             | MS    |         49620
+ Lamar               | MS    |         50075
+ Franklin            | MO    |         50098
+ Lafayette           | MO    |         50000
+ Warren              | MO    |         50182
+ Yellowstone         | MT    |         50185
+ Buffalo             | NE    |         49851
+ Cheyenne            | NE    |         50143
+ Otoe                | NE    |         50000
+ Polk                | NE    |         50298
+ White Pine          | NV    |         49812
+ Carroll             | NH    |         50555
+ Cayuga              | NY    |         50140
+ Tompkins            | NY    |         49789
+ Washington          | NY    |         50117
+ Davie               | NC    |         50562
+ Johnston            | NC    |         49888
+ Lincoln             | NC    |         50279
+ Bowman              | ND    |         50487
+ Lamoure             | ND    |         49922
+ Renville            | ND    |         50093
+ Franklin            | OH    |         50045
+ Hancock             | OH    |         49888
+ Morrow              | OH    |         50252
+ Shelby              | OH    |         50527
+ Coconino            | AZ    |         49615
+ Logan               | OK    |         50249
+ Allegheny           | PA    |         49805
+ Charleston          | SC    |         50133
+ Turner              | SD    |         50143
+ Loudon              | TN    |         50458
+ Montgomery          | TN    |         49695
+ Cooke               | TX    |         50176
+ Ector               | TX    |         50056
+ Jackson             | TX    |         50010
+ Medina              | TX    |         50101
+ Ochiltree           | TX    |         49794
+ Victoria            | TX    |         49676
+ Washington          | UT    |         50307
+ Wayne               | UT    |         49847
+ Shenandoah          | VA    |         50535
+ Douglas             | WA    |         49707
+ Chippewa            | WI    |         50239
+ La Crosse           | WI    |         50510
+ Lafayette           | WI    |         49850
+ Manitowoc           | WI    |         50181
+ Rock                | WI    |         50532
+ Crook               | WY    |         49757
+ Park                | WY    |         50105
+ Washakie            | WY    |         50177
+ Sierra              | CA    |         50308
+ Sutter              | CA    |         50010
+ Gunnison            | CO    |         50073
+(86 rows)
+
+-- select the top 10 polluters in terms of carbon monoxide emission in a particular state
+-- we use California as an example
+SELECT name, city, carbon_monoxide
+FROM Facility, FacilityPollution
+WHERE state = 'CA'
+	AND Facility.EIS_ID = FacilityPollution.EIS_ID
+	AND carbon_monoxide > 0
+ORDER BY carbon_monoxide DESC
+LIMIT 10;
+             name             |     city      | carbon_monoxide 
+------------------------------+---------------+-----------------
+ LOS ANGELES INT AIRPORT      | LOS ANGELES   |         7067.47
+ San Francisco Internati      | San Francisco |         4193.95
+ SIERRA PACIFIC INDUSTRIES    | QUINCY        |         2318.74
+ PACIFIC OROVILLE POWER, INC. | OROVILLE      |         2128.04
+ SIERRA PACIFIC INDUSTRIES    | LINCOLN       |         1932.14
+ San Diego Intl-Lindberg      | San Diego     |         1808.71
+ Metropolitan Oakland In      | Oakland       |         1643.35
+ SIERRA PACIFIC IND. - BURNEY | BURNEY        |         1639.92
+ NATIONAL CEMENT CO           | LEBEC         |         1437.89
+ JOHN WAYNE AIRPORT           | SANTA ANNA    |         1361.66
+(10 rows)
+
