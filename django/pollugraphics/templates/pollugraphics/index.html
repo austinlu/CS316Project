@@ -1,0 +1,13 @@
+{% extends "pollugraphics/base.html" %}
+
+{% block heading %}select a county to begin{% endblock %}
+
+{% block content %}
+<form>
+<select name="county">
+{% for c in counties %}
+	<option value="{{ c.id }}">{{ c }}</option>
+{% endfor %}
+</select>
+</form>
+{% endblock %}
