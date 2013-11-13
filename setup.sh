@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # create new database
 dropdb pollugraphics
 createdb pollugraphics
@@ -8,7 +10,7 @@ createdb pollugraphics
 python django/manage.py syncdb
 
 # load data into tables
-psql -af "COPY state FROM '${PWD}data/stateTable.csv' DELIMTER ',' CSV"
-psql -af "COPY county FROM '${PWD}data/countyTable.csv' DELIMTER ',' CSV"
-psql -af "COPY facility FROM '${PWD}data/facilityTable.csv' DELIMTER ',' CSV"
-psql -af "COPY facilitypollution FROM '${PWD}data/facilityPollutionTable.csv' DELIMTER ',' CSV"
+psql pollugraphics -ac "COPY state FROM '${PWD}/data/stateTable.csv' DELIMITER ',' CSV"
+psql pollugraphics -ac "COPY county FROM '${PWD}/data/countyPkTable.csv' DELIMITER ',' CSV"
+psql pollugraphics -ac "COPY facility FROM '${PWD}/data/facilityTable.csv' DELIMITER ',' CSV"
+psql pollugraphics -ac "COPY facilitypollution FROM '${PWD}/data/facilitypollutionTable.csv' DELIMITER ',' CSV"
