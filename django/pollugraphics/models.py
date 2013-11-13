@@ -11,8 +11,8 @@ class State(models.Model):
 		return self.abbreviation
 
 class County(models.Model):
-	state = models.ForeignKey(State)
 	name = models.CharField(max_length=50)
+	state = models.ForeignKey(State)
 	population_density = models.DecimalField(decimal_places=10, max_digits=20)
 	unemployment_rate = models.DecimalField(decimal_places=10, max_digits=20)
 	median_income = models.DecimalField(decimal_places=10, max_digits=20)
@@ -27,14 +27,14 @@ class County(models.Model):
 
 class Facility(models.Model):
 	eis_id = models.IntegerField(primary_key=True)
-	name = models.CharField(max_length=50)
-	address = models.CharField(max_length=200)
-	city = models.CharField(max_length=50)
-	county = models.ForeignKey(County)
+	name = models.CharField(max_length=200)
+	address = models.CharField(max_length=200, null=True, blank=True)
+	city = models.CharField(max_length=200, null=True, blank=True)
+	county = models.CharField(max_length=50)
 	state = models.ForeignKey(State)
-	industry = models.CharField(max_length=200)
-	latitude = models.DecimalField(decimal_places=10, max_digits=20)
-	longitude = models.DecimalField(decimal_places=10, max_digits=20)
+	industry = models.CharField(max_length=200, null=True, blank=True)
+	latitude = models.DecimalField(decimal_places=10, max_digits=20, null=True, blank=True)
+	longitude = models.DecimalField(decimal_places=10, max_digits=20, null=True, blank=True)
 
 	class Meta:
 		db_table = 'facility'
@@ -43,13 +43,13 @@ class Facility(models.Model):
 		return self.name
 
 class FacilityPollution(models.Model):
-	eis_id = models.ForeignKey(Facility)
-	carbon_monoxide = models.DecimalField(decimal_places=10, max_digits=20)
-	nitrogen_oxides = models.DecimalField(decimal_places=10, max_digits=20)
-	sulfur_dioxide = models.DecimalField(decimal_places=10, max_digits=20)
-	particulate_matter_10 = models.DecimalField(decimal_places=10, max_digits=20)
-	lead = models.DecimalField(decimal_places=10, max_digits=20)
-	mercury = models.DecimalField(decimal_places=10, max_digits=20)
+	eis_id = models.ForeignKey(Facility, primary_key=True)
+	carbon_monoxide = models.DecimalField(decimal_places=10, max_digits=20, null=True, blank=True)
+	nitrogen_oxides = models.DecimalField(decimal_places=10, max_digits=20, null=True, blank=True)
+	sulfur_dioxide = models.DecimalField(decimal_places=10, max_digits=20, null=True, blank=True)
+	particulate_matter_10 = models.DecimalField(decimal_places=10, max_digits=20, null=True, blank=True)
+	lead = models.DecimalField(decimal_places=10, max_digits=20, null=True, blank=True)
+	mercury = models.DecimalField(decimal_places=10, max_digits=20, null=True, blank=True)
 
 	class Meta:
 		db_table = 'facilitypollution'
