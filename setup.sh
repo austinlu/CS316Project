@@ -2,8 +2,8 @@
 
 set -e
 
+dropdb pollugraphics || true
 # create new database
-dropdb pollugraphics
 createdb pollugraphics
 
 # create database tables
