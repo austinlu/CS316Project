@@ -1,7 +1,7 @@
 {% extends "pollugraphics/base.html" %}
 
 <!-- county name and state -->
-{% block heading %}{{county.name}}, {{county.state.name}}{% endblock %}
+{% block heading %}{{county.name}} County, {{county.state.name}}{% endblock %}
 
 {% block content %}
 
@@ -21,5 +21,7 @@ Carbon monoxide:
 
 <!-- compare to 3 similar counties  -->
 <h2>Compare to</h2>
-
+{% for c in comps %}
+        <b>{{c.name}} County, {{c.state}}</b></br>
+{% endfor %}
 {% endblock %}
