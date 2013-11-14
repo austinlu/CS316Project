@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from pollugraphics.models import County, State, Facility, FacilityPollution
 
 def index(request):
-	counties = County.objects.all()
+	counties = County.objects.order_by('state__name', 'name')
 	states = State.objects.order_by('abbreviation')
 	template = loader.get_template('pollugraphics/index.html')
 	context = RequestContext(request, {
