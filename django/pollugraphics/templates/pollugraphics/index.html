@@ -1,0 +1,27 @@
+{% extends "pollugraphics/base.html" %}
+ 
+{% block heading %}select a county to begin
+   
+   
+{% endblock %}
+ 
+{% block content %}
+<form>
+<select name="county" id = "countyChoice">
+{% for c in counties %}
+        <option value="{{ c.id }}">{{ c }}</option>
+{% endfor %}
+</select>
+</form>
+<!--<input type="button" id="expandButton" value="Submit">-->
+ 
+ <script>
+      var expandButton = document.getElementById("expandButton");
+      expandButton.onclick=function(){
+            var e = document.getElementById("countyChoice");
+                        var strUser = e.options[e.selectedIndex].value;
+                        window.location.href = "county/" + strUser;
+      }
+         
+    </script>
+{% endblock %}
