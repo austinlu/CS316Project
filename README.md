@@ -1,7 +1,8 @@
 Pollugraphics
 =============
 
-# Setup instructions
+Setup instructions
+------------------
 
 1. Make sure you have pulled the latest changes from https://github.com/austinlu/CS316Project (or retrieved the latest changes on your local machine, i.e. laptop, and copied them to your VM).
 
@@ -20,7 +21,8 @@ This script should create a new Postgres database called pollugraphics and creat
 Note: the exact URL may vary based on your server setup, such as where your project directory is located. For example, mine (Peggy's) is actually at: http://dukedb-pl59.cloudapp.net/CS316Project/django/pollugraphics/
 
 
-# Description of files
+Description of files
+--------------------
 
 The top level project directory CS316Project/ should contain the following subdirectories:
 
