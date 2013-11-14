@@ -2,14 +2,19 @@
 <html>
 	<head>
 		<title>pollugraphics</title>
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
 	</head>
 	<body>
-		<p>created by: peggy li, lawrence lin, austin lu</p>
-
+	<div class="container">
 		<h1>{% block heading %}{% endblock %}</h1>
 
 		<div id="content">
 			{% block content %}{% endblock %}
 		</div>
+	
+		<div class="footer">
+			<p class="muted pagination-centered">Created by: Peggy Li, Austin Lu &amp; Lawrence Lin</p>
+		</div>
+	</div>
 	</body>
 </html>

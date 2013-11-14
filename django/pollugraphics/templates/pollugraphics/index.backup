@@ -1,0 +1,35 @@
+{% extends "pollugraphics/base.html" %}
+
+{% block heading %}pollugraphics{% endblock %}
+
+{% block content %}
+<script>
+      submit.onclick=function(){
+            var e = document.getElementById("countyChoice");
+            var strUser = e.options[e.selectedIndex].value;
+            window.location.href = "pollugraphics/county/" + strUser;
+	console.log(strUser);
+      }
+</script>
+
+
+<h2>Select a county to begin</h2>
+<form>
+<select id="countyChoice" name="county">
+{% for c in counties %}
+	<option value="{{ c.id }}" >{{ c }}</option>
+{% endfor %}
+</select>
+<input id="submit"  type="button" value="Submit" />
+</form>
+
+
+<h2>Select a state to begin</h2>
+<form method="GET">
+<select name="state">
+{% for s in states %}
+	<option value="{{ s.abbreviation }}">{{ s }}</option>
+{% endfor %}
+</select>
+</form>
+{% endblock %}
