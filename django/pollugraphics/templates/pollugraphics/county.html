@@ -22,6 +22,6 @@ Carbon monoxide:
 <!-- compare to 3 similar counties  -->
 <h2>Compare to</h2>
 {% for c in comps %}
-        <b>{{c.name}} County, {{c.state}}</b></br>
+		<b><a href="../{{c.id}}">{{c.name}} County, {{c.state}}</a></b></br>
 {% endfor %}
 {% endblock %}
