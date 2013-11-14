@@ -4,9 +4,9 @@ Pollugraphics
 Setup instructions
 ------------------
 
-1. Make sure you have pulled the latest changes from https://github.com/austinlu/CS316Project (or retrieved the latest changes on your local machine, i.e. laptop, and copied them to your VM).
+1. Make sure you have pulled the latest changes from https://github.com/austinlu/CS316Project (or retrieved the latest changes on your local machine, i.e. laptop, and copied them to your VM). 
 
-Do NOT change the directory structure or rename any files or directories unless you are sure that is safe to do so. There may be issues running the setup script or using django if certain files or directories are renamed or moved.
+	Do NOT change the directory structure or rename any files or directories unless you are sure that is safe to do so. There may be issues running the setup script or using django if certain files or directories are renamed or moved.
 
 2. In django/mysite/settings.py, edit DATABASES by adding your username and password for the local Postgres server. Make sure host is set to 'localhost'.
 
@@ -14,11 +14,11 @@ Do NOT change the directory structure or rename any files or directories unless 
 
 	./setup.sh
 
-This script should create a new Postgres database called pollugraphics and create tables in the database with schemas based on the django models. It will then load the clean datasets from CSV files located in the data/ directory. 
+	This script should create a new Postgres database called pollugraphics and create tables in the database with schemas based on the django models. It will then load the clean datasets from CSV files located in the data/ directory. 
 
 4. That's all! Open your browser and visit http://HOSTNAME/django/pollugraphics to confirm that django is working. 
 
-Note: the exact URL may vary based on your server setup, such as where your project directory is located. For example, mine (Peggy's) is actually at: http://dukedb-pl59.cloudapp.net/CS316Project/django/pollugraphics/
+	Note: the exact URL may vary based on your server setup, such as where your project directory is located. For example, mine (Peggy's) is actually at: http://dukedb-pl59.cloudapp.net/CS316Project/django/pollugraphics/
 
 
 Description of files
