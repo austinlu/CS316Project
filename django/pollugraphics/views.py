@@ -19,6 +19,9 @@ def county(request, county_id):
 	c = get_object_or_404(County, pk=county_id)
 	return render(request, 'pollugraphics/county.html', {
 		'county': c,
+		'comps': County.objects.raw('SELECT id,name FROM County ORDER BY abs((select unemployment_rate from County where id = %s) - unemployment_rate) limit 3', [county_id])
+	   # 'comps':Comps.objects.raw('SELECT name FROM County' )
+
 	})
 #	return HttpResponseRedirect(reverse('county', args=(), 
 #		kwargs={'county': c}))
