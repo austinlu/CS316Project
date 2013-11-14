@@ -9,17 +9,25 @@
 <h2>Demographic Data</h2>
 
 <ul>
-	<li>Population density: {{county.population_density}}</li>
-	<li>Median income: {{county.median_income}}</li>
-	<li>Unemployment rate: {{county.unemployment_rate}}</li>
-	<li>% with high school degree: {{county.percent_hs}}</li>
-	<li>% with bachelors degree: {{county.percent_bachelors}}</li>
+	<li>Population density: {{county.population_density.normalize}}</li>
+	<li>Median income: {{county.median_income.normalize}}</li>
+	<li>Unemployment rate: {{county.unemployment_rate.normalize}}</li>
+	<li>% with high school degree: {{county.percent_hs.normalize}}</li>
+	<li>% with bachelors degree: {{county.percent_bachelors.normalize}}</li>
 </ul>
 
 <!-- county pollution data -->
 <h2>Industrial Pollution Data</h2>
-
-Carbon monoxide:
+<ul>
+	<li>Carbon monoxide: {{aggPollution.0.normalize}}</li>
+	<li>Nitrogen oxides: {{aggPollution.1.normalize}}</li>
+	<li>Sulfur dioxide: {{aggPollution.2.normalize}}</li>
+	<li>Particulate matter PM-10: {{aggPollution.3.normalize}}</li>
+	<li>Lead: {{aggPollution.4.normalize}}</li>
+	<li>Mercury: {{aggPollution.5.normalize}}</li>
+	
+</ul>
+<b>Pollution aggregated from {{aggPollution.6}} facilities.
 
 <!-- compare to 3 similar counties  -->
 <h2>Compare to</h2>
