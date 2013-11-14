@@ -1,8 +1,6 @@
 {% extends "pollugraphics/base.html" %}
  
 {% block heading %}select a county to begin
-   
-   
 {% endblock %}
  
 {% block content %}
@@ -13,15 +11,14 @@
 {% endfor %}
 </select>
 </form>
-<input type="button" id="expandButton" value="Submit">
+<input type="button" id="submitButton" value="Submit">
  
- <script>
-      var expandButton = document.getElementById("expandButton");
-      expandButton.onclick=function(){
-            var e = document.getElementById("countyChoice");
-                        var strUser = e.options[e.selectedIndex].value;
-                        window.location.href = "county/" + strUser;
-      }
-         
-    </script>
+<script>
+	var submitButton = document.getElementById("submitButton");
+	submitButton.onclick=function(){
+    	var e = document.getElementById("countyChoice");
+    	var countyid = e.options[e.selectedIndex].value;
+    	window.location.href = "county/" + countyid;
+	}     
+</script>
 {% endblock %}
