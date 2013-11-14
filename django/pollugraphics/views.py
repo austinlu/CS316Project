@@ -23,7 +23,7 @@ def county(request, county_id):
 
 	return render(request, 'pollugraphics/county.html', {
 		'county': c,
-		'comps': County.objects.raw('SELECT id,name FROM County ORDER BY abs((select unemployment_rate from County where id = %s) - unemployment_rate) limit 3', [county_id]),
+		'comps': County.objects.raw('SELECT id,name FROM County WHERE id != %s ORDER BY abs((select unemployment_rate from County where id = %s) - unemployment_rate) limit 3', [county_id,county_id]),
 		'aggPollution': row
 		})
 	
