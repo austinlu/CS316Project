@@ -1,6 +1,9 @@
 Pollugraphics
 =============
 
+Peggy Li, Austin Lu, Lawrence Lin
+
+
 Setup instructions
 ------------------
 
@@ -32,4 +35,10 @@ The top level project directory CS316Project/ should contain the following subdi
 * Samples - sample data, queries, and output from Milestone 1
 * Test Production - SQL test queries and output using production data
 
+Technology Stack (Platform)
+---------------------------
+
+* Database: PostgreSQL
+* Back-end: Python (using Django)
+* Front-end: HTML, CSS (with Boostrap), JavaScript
 
