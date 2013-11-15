@@ -13,11 +13,11 @@ class State(models.Model):
 class County(models.Model):
 	name = models.CharField(max_length=50)
 	state = models.ForeignKey(State)
-	population_density = models.DecimalField(decimal_places=10, max_digits=20)
-	unemployment_rate = models.DecimalField(decimal_places=10, max_digits=20)
-	median_income = models.DecimalField(decimal_places=10, max_digits=20)
-	percent_hs = models.DecimalField(decimal_places=10, max_digits=20)
-	percent_bachelors = models.DecimalField(decimal_places=10, max_digits=20)
+	population_density = models.DecimalField(decimal_places=2, max_digits=20)
+	unemployment_rate = models.DecimalField(decimal_places=2, max_digits=20)
+	median_income = models.DecimalField(decimal_places=2, max_digits=20)
+	percent_hs = models.DecimalField(decimal_places=2, max_digits=20)
+	percent_bachelors = models.DecimalField(decimal_places=2, max_digits=20)
 
 	class Meta:
 		db_table = 'county'
