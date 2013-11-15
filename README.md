@@ -35,10 +35,28 @@ The top level project directory CS316Project/ should contain the following subdi
 * Samples - sample data, queries, and output from Milestone 1
 * Test Production - SQL test queries and output using production data
 
-Technology Stack (Platform)
+
+Technology stack (platform)
 ---------------------------
 
 * Database: PostgreSQL
 * Back-end: Python (using Django)
 * Front-end: HTML, CSS (with Boostrap), JavaScript
+
+
+Assumptions about data
+----------------------
+
+During the process of cleaning the production data, we discovered two additional necessary assumptions:
+
+1. All valid facilities can be categorized into a county and a state.
+
+2. All counties are identically named between Bureau of Labor Statistics and EPA data, in terms of dash/space formatting.
+
+
+Database indexes
+----------------
+
+To speed up performances of common queries, we decided to add an index on county name for the County table; this is justified by the high predicted frequency of queries resembling “select … from … where county.name = ...”, which can be costly when string matching through the thousands of counties our database includes. Other candidates for indexing were primary keys such as eis_id in Facility and FacilityPollution tables, which were indexed by default.
+
 
