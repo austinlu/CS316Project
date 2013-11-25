@@ -1,0 +1,33 @@
+{% extends "pollugraphics/base.html" %}
+
+<!-- county name and state -->
+{% block heading %}{{facility.name}}{% endblock %}
+
+{% block content %}
+
+<!-- facility geographic data -->
+<h2>Geographic Data</h2>
+
+<ul>
+	<li>Address: {{facility.address}}</li>
+	<li>City: {{facility.city}}</li>
+	<li>County: {{facility.county}}</li>
+	<li>State: {{facility.state}}</li>
+	<li>Industry: {{facility.industry}}</li>
+	<li>Latitude: {{facility.latitude}}</li>
+	<li>Longitude: {{facility.longitude}}</li>
+</ul>
+
+<!-- facility pollution data -->
+<h2>Pollution Data</h2>
+<ul>
+	<li>Carbon monoxide (tons): {{facilitypollution.carbon_monoxide}} </li>
+	<li>Nitrogen oxides (tons): {{facilitypollution.nitrogen_oxides}} </li>
+	<li>Sulfur dioxide (tons): {{facilitypollution.sulfur_dioxide}} </li>
+	<li>Particulate matter PM-10 (tons): {{facilitypollution.particulate_matter_10}} </li>
+	<li>Lead (tons): {{facilitypollution.lead}} </li>
+	<li>Mercury (lbs): {{facilitypollution.mercury}} </li>
+	
+</ul>
+
+{% endblock %}

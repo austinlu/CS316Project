@@ -19,19 +19,22 @@
 <!-- county pollution data -->
 <h2>Industrial Pollution Data</h2>
 <ul>
-	<li>Carbon monoxide (tons): {{aggPollution.0.normalize}}</li>
-	<li>Nitrogen oxides (tons): {{aggPollution.1.normalize}}</li>
-	<li>Sulfur dioxide (tons): {{aggPollution.2.normalize}}</li>
-	<li>Particulate matter PM-10 (tons): {{aggPollution.3.normalize}}</li>
-	<li>Lead (tons): {{aggPollution.4.normalize}}</li>
-	<li>Mercury (lbs): {{aggPollution.5.normalize}}</li>
+	<li>Carbon monoxide (tons): {{aggPollution.0.normalize}} from <b><a href="../{{county.id}}/CO">{{aggPollution.7}}</a></b> facilities</li>
+	<li>Nitrogen oxides (tons): {{aggPollution.1.normalize}} from <b><a href="../{{county.id}}/NOx">{{aggPollution.8}}</a></b> facilities</li>
+	<li>Sulfur dioxide (tons): {{aggPollution.2.normalize}} from <b><a href="../{{county.id}}/SO2">{{aggPollution.9}}</a></b> facilities</li>
+	<li>Particulate matter PM-10 (tons): {{aggPollution.3.normalize}} from <b><a href="../{{county.id}}/PM10">{{aggPollution.10}}</a></b> facilities</li>
+	<li>Lead (tons): {{aggPollution.4.normalize}} from <b><a href="../{{county.id}}/lead">{{aggPollution.11}}</a></b> facilities</li>
+	<li>Mercury (lbs): {{aggPollution.5.normalize}} from <b><a href="../{{county.id}}/mercury">{{aggPollution.12}}</a></b> facilities</li>
 	
 </ul>
-<b>Pollution aggregated from {{aggPollution.6}} facilities</b>
+<b>Pollution aggregated from a total of {{aggPollution.6}} facilities</b>
+<!-- <b><a href="../">click</b> -->
 
 <!-- compare to 3 similar counties  -->
 <h2>Compare to</h2>
 {% for c in comps %}
 		<b><a href="../{{c.id}}">{{c.name}} County, {{c.state}}</a></b></br>
 {% endfor %}
+
+Back to <a href="/CS316Project/django/pollugraphics/">home page</a>
 {% endblock %}

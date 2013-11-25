@@ -1,0 +1,17 @@
+{% extends "pollugraphics/base.html" %}
+
+<!-- county name and state -->
+{% block heading %}{{county.name}} County, {{county.state.name}}{% endblock %}
+{% block content %}
+
+<!-- county demographics data -->
+<h2>Top 10 polluters of {{pollutant}}</h2>
+<ul>
+<li>Name, Address, City, {{pollutant}} emission</li>
+{% for p in polluters %}
+     <li><a href="/CS316Project/django/pollugraphics/facility/{{p.eis_id}}">{{p.name}}</a>, {{p.address}}, {{p.city}}, {{p.pollute}}</li>
+{% endfor %}
+</ul>
+
+Back to <a href="/CS316Project/django/pollugraphics/county/{{county.id}}">county</a>
+{% endblock %}
