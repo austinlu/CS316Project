@@ -1,0 +1,30 @@
+{% extends "pollugraphics/base.html" %}
+
+{% block heading %}Form{% endblock %}
+
+{% block content %}
+<form action="/get_similar/" method="post">{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" value="Submit" />
+</form>
+
+<div id="target">
+  Click here
+</div>
+<div id="other">
+  Trigger the handler
+</div>
+
+<a href="" id="compare">Find similar counties</a>
+
+<script>
+$( "#target" ).click(function() {
+  alert( "Handler for .click() called." );
+});
+$("#compare").click(function() {
+	alert("Compare!");
+});
+</script>
+
+
+{% endblock %}

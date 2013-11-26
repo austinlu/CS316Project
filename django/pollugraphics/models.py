@@ -1,4 +1,5 @@
 from django.db import models
+from django import forms
 
 class State(models.Model):
 	abbreviation = models.CharField(max_length=2, primary_key=True)
@@ -54,4 +55,10 @@ class FacilityPollution(models.Model):
 	class Meta:
 		db_table = 'facilitypollution'
 
-
+class CountyAttributesForm(forms.Form):
+	same_state = forms.BooleanField(required=False)
+	population_density = forms.BooleanField(required=False)
+	unemployment_rate = forms.BooleanField(required=False)
+	median_income = forms.BooleanField(required=False)
+	percent_hs = forms.BooleanField(required=False)
+	percent_bachelors = forms.BooleanField(required=False)

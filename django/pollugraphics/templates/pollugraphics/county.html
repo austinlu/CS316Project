@@ -37,4 +37,34 @@
 {% endfor %}
 
 Back to <a href="/CS316Project/django/pollugraphics/">home page</a>
+=======
+	<li>Carbon monoxide (tons): {{agg_pollution.0.normalize}}</li>
+	<li>Nitrogen oxides (tons): {{agg_pollution.1.normalize}}</li>
+	<li>Sulfur dioxide (tons): {{agg_pollution.2.normalize}}</li>
+	<li>Particulate matter PM-10 (tons): {{agg_pollution.3.normalize}}</li>
+	<li>Lead (tons): {{agg_pollution.4.normalize}}</li>
+	<li>Mercury (lbs): {{agg_pollution.5.normalize}}</li>
+	
+</ul>
+
+<h3>Find similar counties based on:</h3> 
+<form action="{% url 'pollugraphics:compare_county' 4 %}" method="get">
+	{{ form.as_p }}
+	<input id="submit" type="submit" value="Find similar counties" />
+</form>
+<!-- <a href="" id="compare">Find similar counties</a> -->
+
+<script>
+function similar(cid) {
+	$.getJSON("/counties/", {xhr: "true", county: cid},
+	function(data) {
+		alert("Compare");
+	});
+}
+$("#compare").click(function() {
+	similar();
+});
+</script>
+
 {% endblock %}
+
