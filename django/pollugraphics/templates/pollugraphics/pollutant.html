@@ -14,5 +14,6 @@
 </table>
 
 
-Back to <a href="/CS316Project/django/pollugraphics/county/{{county.id}}">county</a>
+Back to <a href="{% url 'pollugraphics:county' county.id %}">county</a>
+
 {% endblock %}
