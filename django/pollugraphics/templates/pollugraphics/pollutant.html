@@ -6,12 +6,13 @@
 
 <!-- county demographics data -->
 <h2>Top 10 polluters of {{pollutant}}</h2>
-<ul>
-<li>Name, Address, City, {{pollutant}} emission</li>
+<table cellpadding="5%">
+<tr><th>Facility name</th><th>City</th><th>{{pollutant}} emission</th></tr>
 {% for p in polluters %}
-     <li><a href="/CS316Project/django/pollugraphics/facility/{{p.eis_id}}">{{p.name}}</a>, {{p.address}}, {{p.city}}, {{p.pollute}}</li>
+     <tr><td><a href="/CS316Project/django/pollugraphics/facility/{{p.eis_id}}">{{p.name}}</a></td><td>{{p.city}}</td><td>{{p.pollute.normalize}}</td><tr>
 {% endfor %}
-</ul>
+</table>
+
 
 Back to <a href="/CS316Project/django/pollugraphics/county/{{county.id}}">county</a>
 {% endblock %}
