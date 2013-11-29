@@ -1,0 +1,11 @@
+{% extends "pollugraphics/base.html" %}
+
+{% block heading %}Counties similar to <a href="{% url 'pollugraphics:county' county.id %}">{{county.name}} County, {{county.state.name}}</a>{% endblock %}
+
+{% block content %}
+
+{% for c in comps %}
+	<li>{{ c.name }} County, {{ c.state }}</li>
+{% endfor %}
+
+{% endblock %}

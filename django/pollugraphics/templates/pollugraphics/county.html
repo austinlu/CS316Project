@@ -25,44 +25,27 @@
 	<li>Particulate matter PM-10 (tons): {{aggPollution.3.normalize}} from <b><a href="../{{county.id}}/PM10">{{aggPollution.10}}</a></b> facilities</li>
 	<li>Lead (tons): {{aggPollution.4.normalize}} from <b><a href="../{{county.id}}/lead">{{aggPollution.11}}</a></b> facilities</li>
 	<li>Mercury (lbs): {{aggPollution.5.normalize}} from <b><a href="../{{county.id}}/mercury">{{aggPollution.12}}</a></b> facilities</li>
-	
-</ul>
-<b>Pollution aggregated from a total of {{aggPollution.6}} facilities</b>
-<!-- <b><a href="../">click</b> -->
-
-<!-- compare to 3 similar counties  -->
-<h2>Compare to</h2>
-{% for c in comps %}
-		<b><a href="../{{c.id}}">{{c.name}} County, {{c.state}}</a></b></br>
-{% endfor %}
-
-	<li>Carbon monoxide (tons): {{agg_pollution.0.normalize}}</li>
-	<li>Nitrogen oxides (tons): {{agg_pollution.1.normalize}}</li>
-	<li>Sulfur dioxide (tons): {{agg_pollution.2.normalize}}</li>
-	<li>Particulate matter PM-10 (tons): {{agg_pollution.3.normalize}}</li>
-	<li>Lead (tons): {{agg_pollution.4.normalize}}</li>
-	<li>Mercury (lbs): {{agg_pollution.5.normalize}}</li>
-	
 </ul>
 
 <h3>Find similar counties based on:</h3> 
-<form action="{% url 'pollugraphics:compare_county' 4 %}" method="get">
-	{{ form.as_p }}
+<form action="{% url 'pollugraphics:compare_county' county.id %}" method="get">
+	<!-- {{ form.as_p }} -->
+	<!-- select whether or not to impose same-state restriction -->
+	<label>Restrict search to same state as {{ county.name }} County? </label>
+	<input type="radio" name="state" value="yes">Yes
+	<input type="radio" name="state" value="no">No
+
+	<!-- select a single attribute to sort by -->
+	<label>Compare by:</label>
+	<select name="sort">
+		<option value="population_density">Population Density</option>
+		<option value="median_income">Median Income</option>
+		<option value="unemployment_rate">Unemployment Rate</option>
+		<option value="percent_hs">Percent with HS Degree</option>
+		<option value="percent_bachelors">Percent with Bachelors Degree</option>
+	</select>
 	<input id="submit" type="submit" value="Find similar counties" />
 </form>
-<!-- <a href="" id="compare">Find similar counties</a> -->
-
-<script>
-function similar(cid) {
-	$.getJSON("/counties/", {xhr: "true", county: cid},
-	function(data) {
-		alert("Compare");
-	});
-}
-$("#compare").click(function() {
-	similar();
-});
-</script>
 
 {% endblock %}
 

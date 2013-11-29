@@ -16,11 +16,11 @@ def index(request):
 	return HttpResponse(template.render(context))
 
 def county(request, county_id):
-	# if request.is_ajax():
-	# 	if request.GET.get('action') == 'compare':
-	# 		comps = County.objects.raw('SELECT id, name FROM County LIMIT 5')
-	# 		json = simplejson.dumps(comps, cls=DjangoJSONEncoder)
-	# 		return HttpResponse(json, mimetype='application/json')
+	if request.is_ajax():
+		if request.GET.get('action') == 'compare':
+			comps = County.objects.raw('SELECT id, name FROM County LIMIT 5')
+			json = simplejson.dumps(comps, cls=DjangoJSONEncoder)
+			return HttpResponse(json, mimetype='application/json')
 	
 	c = get_object_or_404(County, pk=county_id)
 	cursor = connection.cursor()
@@ -29,13 +29,24 @@ def county(request, county_id):
 
 	return render(request, 'pollugraphics/county.html', {
 		'county': c,
-		'comps': County.objects.raw('SELECT id,name FROM County WHERE id != %s ORDER BY abs((select unemployment_rate from County where id = %s) - unemployment_rate) limit 3;', [county_id,county_id]),
 		'aggPollution': row,
 		'form': CountyAttributesForm(request.POST)
 		})
 
-def compare_county(request, county_id):
-	return HttpResponse('Compare county #' + county_id)
+def compare_county(request, county_id, limit=5):
+	c = get_object_or_404(County, pk=county_id)
+	same_state = request.GET.get('state', '')
+	sort_by = request.GET.get('sort', '')
+
+	if same_state == 'yes':
+		comps = County.objects.raw('SELECT * FROM County WHERE state_id = \'%s\' AND id != %s ORDER BY abs((SELECT %s FROM County WHERE id = %s) - %s) LIMIT %d;' % (c.state, c.id, sort_by, county_id, sort_by, limit))
+	else:
+		comps = County.objects.raw('SELECT * FROM County WHERE id != %s ORDER BY abs((SELECT %s FROM County WHERE id = %s) - %s) LIMIT %d;' % (c.id, sort_by, county_id, sort_by, limit))
+		
+	return render(request, 'pollugraphics/similar_counties.html', {
+		'county': c,
+		'comps': comps,
+		})
 	
 def facility(request, facility_id):
 	f = get_object_or_404(Facility, pk=facility_id)
@@ -84,16 +95,3 @@ def countyPollution(request, county_id, pollutant):
 	       'pollutant': pollutant
 	        })
 	return HttpResponse(facility_id)
-
-
-def form(request):
-	if request.method == 'POST':
-		form = CountyAttributesForm(request.POST)
-		if form.is_valid():
-			print form.clean_data('same_state')
-		return HttpResponseRedirect('/')
-	else:
-		form = CountyAttributesForm()
-	return render(request, 'pollugraphics/form.html', {
-		'form': form,
-	})
