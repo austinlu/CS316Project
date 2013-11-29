@@ -33,6 +33,22 @@ def county(request, county_id):
 		'form': CountyAttributesForm(request.POST)
 		})
 
+def compare(request, county_id1, county_id2):
+	c1 = get_object_or_404(County, pk=county_id1)
+	c2 = get_object_or_404(County, pk=county_id2)
+	cursor = connection.cursor()
+	cursor.execute('SELECT sum(carbon_monoxide), sum(nitrogen_oxides), sum(sulfur_dioxide), sum(particulate_matter_10), sum(lead), sum(mercury), count(*), count(carbon_monoxide),count(nitrogen_oxides), count(sulfur_dioxide), count(particulate_matter_10), count(lead), count(mercury) FROM County, Facility, FacilityPollution WHERE County.id = %s AND County.name = Facility.county AND County.state_id = Facility.state_id AND Facility.eis_id = FacilityPollution.eis_id_id GROUP BY County.name;',[county_id1])
+	row1 = cursor.fetchone()
+	cursor.execute('SELECT sum(carbon_monoxide), sum(nitrogen_oxides), sum(sulfur_dioxide), sum(particulate_matter_10), sum(lead), sum(mercury), count(*), count(carbon_monoxide),count(nitrogen_oxides), count(sulfur_dioxide), count(particulate_matter_10), count(lead), count(mercury) FROM County, Facility, FacilityPollution WHERE County.id = %s AND County.name = Facility.county AND County.state_id = Facility.state_id AND Facility.eis_id = FacilityPollution.eis_id_id GROUP BY County.name;',[county_id2])
+	row2 = cursor.fetchone()
+
+	return render(request, 'pollugraphics/compare.html', {
+		'county1': c1,
+		'county2': c2,
+		'aggPollution1': row1,
+		'aggPollution2': row2
+		})
+		
 def compare_county(request, county_id, limit=5):
 	c = get_object_or_404(County, pk=county_id)
 	same_state = request.GET.get('state', '')

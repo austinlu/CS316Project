@@ -3,9 +3,12 @@
 {% block heading %}Counties similar to <a href="{% url 'pollugraphics:county' county.id %}">{{county.name}} County, {{county.state.name}}</a>{% endblock %}
 
 {% block content %}
-
+<table cellpadding="5%">
 {% for c in comps %}
-	<li>{{ c.name }} County, {{ c.state }}</li>
+	<tr>
+		<td><a href="{% url 'pollugraphics:county' c.id %}">{{ c.name }} County, {{ c.state }}</a></td>
+		<td><button onclick="location.href='../../../compare/{{county.id}}&{{c.id}}'">Compare side-by-side</button></td>
+	</tr>
 {% endfor %}
-
+</table>
 {% endblock %}
