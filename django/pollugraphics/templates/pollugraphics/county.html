@@ -19,12 +19,30 @@
 <!-- county pollution data -->
 <h2>Industrial Pollution Data</h2>
 <ul>
-	<li>Carbon monoxide (tons): {{aggPollution.0.normalize}} from <b><a href="../{{county.id}}/CO">{{aggPollution.7}} facilities</a></b></li>
-	<li>Nitrogen oxides (tons): {{aggPollution.1.normalize}} from <b><a href="../{{county.id}}/NOx">{{aggPollution.8}} facilities</a></b></li>
-	<li>Sulfur dioxide (tons): {{aggPollution.2.normalize}} from <b><a href="../{{county.id}}/SO2">{{aggPollution.9}} facilities</a></b></li>
-	<li>Particulate matter PM-10 (tons): {{aggPollution.3.normalize}} from <b><a href="../{{county.id}}/PM10">{{aggPollution.10}} facilities</a></b></li>
-	<li>Lead (tons): {{aggPollution.4.normalize}} from <b><a href="../{{county.id}}/lead">{{aggPollution.11}} facilities</a></b></li>
-	<li>Mercury (lbs): {{aggPollution.5.normalize}} from <b><a href="../{{county.id}}/mercury">{{aggPollution.12}} facilities</a></b></li>
+	<li><span class="dropt"><span style="width:500px; color:black">
+	CO is a colorless, odorless, poisonous gas, produced by incomplete burning of carbon-based fuels. Carbon monoxide prevents the blood from bringing oxygen to cells, tissues and organs, and is especially harmful to people with heart, lung and circulatory system diseases. Source: EPA
+	</span>Carbon monoxide (tons): </span>{{aggPollution.0.normalize}} from <b><a href="../{{county.id}}/CO">{{aggPollution.7}} facilities</a></b></li>
+	
+	<li><span id="1N" class="dropt"><span style="width:500px; color:black">
+	NO2 is a respiratory irritant, and also a precursor to ozone (or, smog) formation. The main source of NOx emissions into the atmosphere are combustion sources, such as power plants and industrial engines. Source: EPA
+	</span>Nitrogen oxides (tons): </span>{{aggPollution.1.normalize}} from <b><a href="../{{county.id}}/NOx">{{aggPollution.8}} facilities</a></b></li>
+	
+	<li><span id="1S" class="dropt"><span style="width:500px; color:black">
+	Sulfur dioxide is a gas produced by burning coal, most notably in power plants, production of paper and smelting of metals. Sulfur dioxide plays an important role in the production of acid rain. Source: EPA
+	</span>Sulfur dioxide (tons): </span>{{aggPollution.2.normalize}} from <b><a href="../{{county.id}}/SO2">{{aggPollution.9}} facilities</a></b></li>
+	
+	<li><span id="1P" class="dropt"><span style="width:500px; color:black">
+	Particulate matter &lt10 microns includes dust, soot and other tiny bits of solid materials. Particulate pollution can cause eye, nose and throat irritation and other health problems. Source: EPA
+	</span>Particulate matter PM-10 (tons): </span> {{aggPollution.3.normalize}} from <b><a href="../{{county.id}}/PM10">{{aggPollution.10}} facilities</a></b></li>
+	
+	<li><span id="1L" class="dropt"><span style="width:500px; color:black">
+	Lead can be emitted into the environment from industrial sources and contaminated sites, such as former lead smelters. Children and pregnant women are particularly at risk to toxic effects of lead exposure. Source: EPA
+	</span>Lead (tons): </span>{{aggPollution.4.normalize}} from <b><a href="../{{county.id}}/lead">{{aggPollution.11}} facilities</a></b></li>
+	
+	
+	<li><span id="1M" class="dropt"><span style="width:500px; color:black">
+	Mercury can be changed to a highly toxic form that builds up in fish, shellfish and animals that eat fish. Mercury exposure at high levels can harm the brain, heart, kidneys, lungs, and immune system of people of all ages. Source: EPA
+	</span>Mercury (lbs): </span>{{aggPollution.5.normalize}} from <b><a href="../{{county.id}}/mercury">{{aggPollution.12}} facilities</a></b></li>
 </ul>
 
 <h3>Find similar counties based on:</h3> 
@@ -47,5 +65,17 @@
 	<input id="submit" type="submit" value="Find similar counties" />
 </form>
 
+<style>
+li{ margin-bottom: 2pt; }
+span.dropt:hover {text-decoration: none; background: #ffffff; z-index: 6; }
+span.dropt span {position: absolute; left: -9999px;
+  margin: 20px 0 0 0px; padding: 3px 3px 3px 3px;
+  border-style:solid; border-color:black; border-width:1px; z-index: 6;}
+span.dropt:hover span {left: 2%; background: #ffffff;} 
+span.dropt span {position: absolute; left: -9999px;
+  margin: 4px 0 0 0px; padding: 3px 3px 3px 3px; 
+  border-style:solid; border-color:black; border-width:1px;}
+span.dropt:hover span {margin: 20px 0 0 170px; background: #ffffff; z-index:6;} 
+</style>
 {% endblock %}
 
