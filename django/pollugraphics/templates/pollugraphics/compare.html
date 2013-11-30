@@ -19,12 +19,12 @@
 <!-- county pollution data -->
 <h2>Industrial Pollution Data</h2>
 <ul>
-	<li>Carbon monoxide (tons): {{aggPollution1.0.normalize}} from <b><a href="../../county/{{county1.id}}/CO">{{aggPollution1.7}} facilities</a></b> </li>
-	<li>Nitrogen oxides (tons): {{aggPollution1.1.normalize}} from <b><a href="../../county/{{county1.id}}/NOx">{{aggPollution1.8}} facilities</a></b> </li>
-	<li>Sulfur dioxide (tons): {{aggPollution1.2.normalize}} from <b><a href="../../county/{{county1.id}}/SO2">{{aggPollution1.9}} facilities</a></b> </li>
-	<li>Particulate matter PM-10 (tons): {{aggPollution1.3.normalize}} from <b><a href="../../county/{{county1.id}}/PM10">{{aggPollution1.10}} facilities</a></b> </li>
-	<li>Lead (tons): {{aggPollution1.4.normalize}} from <b><a href="../../county/{{county1.id}}/lead">{{aggPollution1.11}} facilities</a></b> </li>
-	<li>Mercury (lbs): {{aggPollution1.5.normalize}} from <b><a href="../../county/{{county1.id}}/mercury">{{aggPollution1.12}} facilities</a></b> </li>
+	<li><span id="1C">Carbon monoxide (tons): </span>{{aggPollution1.0.normalize}} from <b><a href="../../county/{{county1.id}}/CO">{{aggPollution1.7}} facilities</a></b> </li>
+	<li><span id="1N">Nitrogen oxides (tons): </span>{{aggPollution1.1.normalize}} from <b><a href="../../county/{{county1.id}}/NOx">{{aggPollution1.8}} facilities</a></b> </li>
+	<li><span id="1S">Sulfur dioxide (tons): </span>{{aggPollution1.2.normalize}} from <b><a href="../../county/{{county1.id}}/SO2">{{aggPollution1.9}} facilities</a></b> </li>
+	<li><span id="1P">Particulate matter PM-10 (tons): </span>{{aggPollution1.3.normalize}} from <b><a href="../../county/{{county1.id}}/PM10">{{aggPollution1.10}} facilities</a></b> </li>
+	<li><span id="1L">Lead (tons): </span>{{aggPollution1.4.normalize}} from <b><a href="../../county/{{county1.id}}/lead">{{aggPollution1.11}} facilities</a></b> </li>
+	<li><span id="1M">Mercury (lbs): </span>{{aggPollution1.5.normalize}} from <b><a href="../../county/{{county1.id}}/mercury">{{aggPollution1.12}} facilities</a></b> </li>
 	
 </ul>
 <h3>Find similar counties based on:</h3> 
@@ -66,12 +66,12 @@
 <!-- county pollution data -->
 <h2>Industrial Pollution Data</h2>
 <ul>
-	<li>Carbon monoxide (tons): {{aggPollution2.0.normalize}} from <b><a href="../../county/{{county2.id}}/CO">{{aggPollution2.7}} facilities</a></b> </li>
-	<li>Nitrogen oxides (tons): {{aggPollution2.1.normalize}} from <b><a href="../../county/{{county2.id}}/NOx">{{aggPollution2.8}} facilities</a></b> </li>
-	<li>Sulfur dioxide (tons): {{aggPollution2.2.normalize}} from <b><a href="../../county/{{county2.id}}/SO2">{{aggPollution2.9}} facilities</a></b> </li>
-	<li>Particulate matter PM-10 (tons): {{aggPollution2.3.normalize}} from <b><a href="../../county/{{county2.id}}/PM10">{{aggPollution2.10}} facilities</a></b> </li>
-	<li>Lead (tons): {{aggPollution2.4.normalize}} from <b><a href="../../county/{{county2.id}}/lead">{{aggPollution2.11}} facilities</a></b> </li>
-	<li>Mercury (lbs): {{aggPollution2.5.normalize}} from <b><a href="../../county/{{county2.id}}/mercury">{{aggPollution2.12}} facilities</a></b> </li>
+	<li><span id="2C">Carbon monoxide (tons): </span>{{aggPollution2.0.normalize}} from <b><a href="../../county/{{county2.id}}/CO">{{aggPollution2.7}} facilities</a></b> </li>
+	<li><span id="2N">Nitrogen oxides (tons): </span>{{aggPollution2.1.normalize}} from <b><a href="../../county/{{county2.id}}/NOx">{{aggPollution2.8}} facilities</a></b> </li>
+	<li><span id="2S">Sulfur dioxide (tons): </span>{{aggPollution2.2.normalize}} from <b><a href="../../county/{{county2.id}}/SO2">{{aggPollution2.9}} facilities</a></b> </li>
+	<li><span id="2P">Particulate matter PM-10 (tons): </span>{{aggPollution2.3.normalize}} from <b><a href="../../county/{{county2.id}}/PM10">{{aggPollution2.10}} facilities</a></b> </li>
+	<li><span id="2L">Lead (tons): </span>{{aggPollution2.4.normalize}} from <b><a href="../../county/{{county2.id}}/lead">{{aggPollution2.11}} facilities</a></b> </li>
+	<li><span id="2M">Mercury (lbs): </span>{{aggPollution2.5.normalize}} from <b><a href="../../county/{{county2.id}}/mercury">{{aggPollution2.12}} facilities</a></b> </li>
 	
 </ul>
 <h3>Find similar counties based on:</h3> 
@@ -96,6 +96,21 @@
 </div>
 
 </div>
+
+<script>
+document.getElementById("1C").style.color = ({{aggPollution1.0}} > {{aggPollution2.0}}) ? "#B80000" : "#006600";
+document.getElementById("1N").style.color = ({{aggPollution1.1}} > {{aggPollution2.1}}) ? "#B80000" : "#006600";
+document.getElementById("1S").style.color = ({{aggPollution1.2}} > {{aggPollution2.2}}) ? "#B80000" : "#006600";
+document.getElementById("1P").style.color = ({{aggPollution1.3}} > {{aggPollution2.3}}) ? "#B80000" : "#006600";
+document.getElementById("1L").style.color = ({{aggPollution1.4}} > {{aggPollution2.4}}) ? "#B80000" : "#006600";
+document.getElementById("1M").style.color = ({{aggPollution1.5}} > {{aggPollution2.5}}) ? "#B80000" : "#006600";
+document.getElementById("2C").style.color = ({{aggPollution1.0}} > {{aggPollution2.0}}) ? "#006600" : "#B80000";
+document.getElementById("2N").style.color = ({{aggPollution1.1}} > {{aggPollution2.1}}) ? "#006600" : "#B80000";
+document.getElementById("2S").style.color = ({{aggPollution1.2}} > {{aggPollution2.2}}) ? "#006600" : "#B80000";
+document.getElementById("2P").style.color = ({{aggPollution1.3}} > {{aggPollution2.3}}) ? "#006600" : "#B80000";
+document.getElementById("2L").style.color = ({{aggPollution1.4}} > {{aggPollution2.4}}) ? "#006600" : "#B80000";
+document.getElementById("2M").style.color = ({{aggPollution1.5}} > {{aggPollution2.5}}) ? "#006600" : "#B80000";
+</script>
 {% endblock %}
 
 
