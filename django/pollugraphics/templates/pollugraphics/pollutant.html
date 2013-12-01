@@ -3,17 +3,45 @@
 <!-- county name and state -->
 {% block heading %}{{county.name}} County, {{county.state.name}}{% endblock %}
 {% block content %}
+<script type="text/javascript" src="//www.google.com/jsapi"></script>
+<script type="text/javascript">
+	var chartArr = [];
+	chartArr.push(['Facility name', '{{pollutant}} emission']);
+	var aggPollutantLeft = parseFloat("{{aggPollutant.0}}");
+	var aggFacilitiesLeft = parseInt("{{aggPollutant.1}}");
+</script>
 
 <!-- county demographics data -->
 <h2>Top 10 polluters of {{pollutant}}</h2>
 <table cellpadding="5%">
 <tr><th>Facility name</th><th>City</th><th>{{pollutant}} emission</th></tr>
 {% for p in polluters %}
-     <tr><td><a href="/CS316Project/django/pollugraphics/facility/{{p.eis_id}}">{{p.name}}</a></td><td>{{p.city}}</td><td>{{p.pollute.normalize}}</td><tr>
+    <tr><td><a href="/CS316Project/django/pollugraphics/facility/{{p.eis_id}}">{{p.name}}</a></td><td>{{p.city}}</td><td>{{p.pollute.normalize}}</td><tr>
+	<script type="text/javascript">
+		chartArr.push(['{{p.name}}', parseFloat("{{p.pollute}}")]);
+		aggPollutantLeft -= parseFloat("{{p.pollute}}");
+		aggFacilitiesLeft--;
+	</script>
 {% endfor %}
 </table>
 
-
+<div id="visualization" style="width: 600px; height: 400px;"></div>
 Back to <a href="{% url 'pollugraphics:county' county.id %}">county</a>
 
+<script type="text/javascript">
+  google.load('visualization', '1', {packages: ['corechart']});
+</script>
+<script type="text/javascript">
+
+	function drawVisualization() {
+		// Create and draw the visualization.
+		if(aggFacilitiesLeft>0 && aggPollutantLeft>0){
+			chartArr.push([aggFacilitiesLeft+' other facilities', aggPollutantLeft]); //undisplayed facilities
+		}
+		var data = google.visualization.arrayToDataTable(chartArr);
+		new google.visualization.PieChart(document.getElementById('visualization')).
+			draw(data, {title:"{{pollutant}} emissions in {{county.name}} County by facility"});
+	}
+	google.setOnLoadCallback(drawVisualization);
+</script>
 {% endblock %}

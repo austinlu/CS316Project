@@ -11,14 +11,16 @@
 {% endfor %}
 </select>
 </form>
+
 <input type="button" id="submitButton" value="Submit">
- 
 <script>
-	var submitButton = document.getElementById("submitButton");
-	submitButton.onclick=function(){
-    	var e = document.getElementById("countyChoice");
-    	var countyid = e.options[e.selectedIndex].value;
-    	window.location.href = "county/" + countyid;
-	}     
+
+var submitButton = document.getElementById("submitButton");
+
+submitButton.onclick=function(){
+	var e = document.getElementById("countyChoice");
+	var countyid = e.options[e.selectedIndex].value;
+	window.location.href = "county/" + countyid;
+}     
 </script>
 {% endblock %}

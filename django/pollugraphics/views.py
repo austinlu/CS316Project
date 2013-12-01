@@ -33,6 +33,22 @@ def county(request, county_id):
 		'form': CountyAttributesForm(request.POST)
 		})
 
+def compare(request, county_id1, county_id2):
+	c1 = get_object_or_404(County, pk=county_id1)
+	c2 = get_object_or_404(County, pk=county_id2)
+	cursor = connection.cursor()
+	cursor.execute('SELECT sum(carbon_monoxide), sum(nitrogen_oxides), sum(sulfur_dioxide), sum(particulate_matter_10), sum(lead), sum(mercury), count(*), count(carbon_monoxide),count(nitrogen_oxides), count(sulfur_dioxide), count(particulate_matter_10), count(lead), count(mercury) FROM County, Facility, FacilityPollution WHERE County.id = %s AND County.name = Facility.county AND County.state_id = Facility.state_id AND Facility.eis_id = FacilityPollution.eis_id_id GROUP BY County.name;',[county_id1])
+	row1 = cursor.fetchone()
+	cursor.execute('SELECT sum(carbon_monoxide), sum(nitrogen_oxides), sum(sulfur_dioxide), sum(particulate_matter_10), sum(lead), sum(mercury), count(*), count(carbon_monoxide),count(nitrogen_oxides), count(sulfur_dioxide), count(particulate_matter_10), count(lead), count(mercury) FROM County, Facility, FacilityPollution WHERE County.id = %s AND County.name = Facility.county AND County.state_id = Facility.state_id AND Facility.eis_id = FacilityPollution.eis_id_id GROUP BY County.name;',[county_id2])
+	row2 = cursor.fetchone()
+
+	return render(request, 'pollugraphics/compare.html', {
+		'county1': c1,
+		'county2': c2,
+		'aggPollution1': row1,
+		'aggPollution2': row2
+		})
+		
 def compare_county(request, county_id, limit=5):
 	c = get_object_or_404(County, pk=county_id)
 	same_state = request.GET.get('state', '')
@@ -58,40 +74,53 @@ def facility(request, facility_id):
 
 def countyPollution(request, county_id, pollutant):
 	c = get_object_or_404(County, pk=county_id)
+	cursor = connection.cursor()
 	if pollutant=='CO':
+		cursor.execute('SELECT sum(carbon_monoxide), count(carbon_monoxide) FROM County, Facility, FacilityPollution WHERE County.id = %s AND County.name = Facility.county AND County.state_id = Facility.state_id AND Facility.eis_id = FacilityPollution.eis_id_id GROUP BY County.name;',[county_id])
 		return render(request, 'pollugraphics/pollutant.html',{
-	       'polluters': Facility.objects.raw('SELECT Facility.eis_id, Facility.name, Facility.address, Facility.city, FacilityPollution.carbon_monoxide AS pollute FROM County, Facility, FacilityPollution WHERE Facility.eis_id = FacilityPollution.eis_id_id AND Facility.county=County.name AND Facility.state_id=County.state_id AND County.id=%s AND FacilityPollution.carbon_monoxide>0 ORDER BY FacilityPollution.carbon_monoxide DESC LIMIT 10;', [county_id]),
+	       'polluters': Facility.objects.raw('SELECT Facility.eis_id, Facility.name, Facility.city, FacilityPollution.carbon_monoxide AS pollute FROM County, Facility, FacilityPollution WHERE Facility.eis_id = FacilityPollution.eis_id_id AND Facility.county=County.name AND Facility.state_id=County.state_id AND County.id=%s AND FacilityPollution.carbon_monoxide>0 ORDER BY FacilityPollution.carbon_monoxide DESC LIMIT 10;', [county_id]),
 	       'county': c,
-	       'pollutant': pollutant
+	       'pollutant': pollutant,
+		   'aggPollutant': cursor.fetchone()
 	        })
 	elif pollutant=='NOx':
+		cursor.execute('SELECT sum(nitrogen_oxides), count(nitrogen_oxides) FROM County, Facility, FacilityPollution WHERE County.id = %s AND County.name = Facility.county AND County.state_id = Facility.state_id AND Facility.eis_id = FacilityPollution.eis_id_id GROUP BY County.name;',[county_id])	
 		return render(request, 'pollugraphics/pollutant.html',{
-	       'polluters': Facility.objects.raw('SELECT Facility.eis_id, Facility.name, Facility.address, Facility.city, FacilityPollution.nitrogen_oxides AS pollute FROM County, Facility, FacilityPollution WHERE Facility.eis_id = FacilityPollution.eis_id_id AND Facility.county=County.name AND Facility.state_id=County.state_id AND County.id=%s AND FacilityPollution.nitrogen_oxides>0 ORDER BY FacilityPollution.nitrogen_oxides DESC LIMIT 10;', [county_id]),
+	       'polluters': Facility.objects.raw('SELECT Facility.eis_id, Facility.name, Facility.city, FacilityPollution.nitrogen_oxides AS pollute FROM County, Facility, FacilityPollution WHERE Facility.eis_id = FacilityPollution.eis_id_id AND Facility.county=County.name AND Facility.state_id=County.state_id AND County.id=%s AND FacilityPollution.nitrogen_oxides>0 ORDER BY FacilityPollution.nitrogen_oxides DESC LIMIT 10;', [county_id]),
 	       'county': c,
-	       'pollutant': pollutant
+	       'pollutant': pollutant,
+		   'aggPollutant': cursor.fetchone()
 	        })
 	elif pollutant=='SO2':
+		cursor.execute('SELECT sum(sulfur_dioxide), count(sulfur_dioxide) FROM County, Facility, FacilityPollution WHERE County.id = %s AND County.name = Facility.county AND County.state_id = Facility.state_id AND Facility.eis_id = FacilityPollution.eis_id_id GROUP BY County.name;',[county_id])	
 		return render(request, 'pollugraphics/pollutant.html',{
-	       'polluters': Facility.objects.raw('SELECT Facility.eis_id, Facility.name, Facility.address, Facility.city, FacilityPollution.sulfur_dioxide AS pollute FROM County, Facility, FacilityPollution WHERE Facility.eis_id = FacilityPollution.eis_id_id AND Facility.county=County.name AND Facility.state_id=County.state_id AND County.id=%s AND FacilityPollution.sulfur_dioxide>0 ORDER BY FacilityPollution.sulfur_dioxide DESC LIMIT 10;', [county_id]),
+	       'polluters': Facility.objects.raw('SELECT Facility.eis_id, Facility.name, Facility.city, FacilityPollution.sulfur_dioxide AS pollute FROM County, Facility, FacilityPollution WHERE Facility.eis_id = FacilityPollution.eis_id_id AND Facility.county=County.name AND Facility.state_id=County.state_id AND County.id=%s AND FacilityPollution.sulfur_dioxide>0 ORDER BY FacilityPollution.sulfur_dioxide DESC LIMIT 10;', [county_id]),
 	       'county': c,
-	       'pollutant': pollutant
+	       'pollutant': pollutant,
+		   'aggPollutant': cursor.fetchone()
 	        })
 	elif pollutant=='PM10':
+		cursor.execute('SELECT sum(particulate_matter_10), count(particulate_matter_10) FROM County, Facility, FacilityPollution WHERE County.id = %s AND County.name = Facility.county AND County.state_id = Facility.state_id AND Facility.eis_id = FacilityPollution.eis_id_id GROUP BY County.name;',[county_id])		
 		return render(request, 'pollugraphics/pollutant.html',{
-	       'polluters': Facility.objects.raw('SELECT Facility.eis_id, Facility.name, Facility.address, Facility.city, FacilityPollution.particulate_matter_10 AS pollute FROM County, Facility, FacilityPollution WHERE Facility.eis_id = FacilityPollution.eis_id_id AND Facility.county=County.name AND Facility.state_id=County.state_id AND County.id=%s AND FacilityPollution.particulate_matter_10>0 ORDER BY FacilityPollution.particulate_matter_10 DESC LIMIT 10;', [county_id]),
+	       'polluters': Facility.objects.raw('SELECT Facility.eis_id, Facility.name, Facility.city, FacilityPollution.particulate_matter_10 AS pollute FROM County, Facility, FacilityPollution WHERE Facility.eis_id = FacilityPollution.eis_id_id AND Facility.county=County.name AND Facility.state_id=County.state_id AND County.id=%s AND FacilityPollution.particulate_matter_10>0 ORDER BY FacilityPollution.particulate_matter_10 DESC LIMIT 10;', [county_id]),
 	       'county': c,
-	       'pollutant': pollutant
+	       'pollutant': pollutant,
+		   'aggPollutant': cursor.fetchone()
 	        })
 	elif pollutant=='lead':
+		cursor.execute('SELECT sum(lead), count(lead) FROM County, Facility, FacilityPollution WHERE County.id = %s AND County.name = Facility.county AND County.state_id = Facility.state_id AND Facility.eis_id = FacilityPollution.eis_id_id GROUP BY County.name;',[county_id])		
 		return render(request, 'pollugraphics/pollutant.html',{
-	       'polluters': Facility.objects.raw('SELECT Facility.eis_id, Facility.name, Facility.address, Facility.city, FacilityPollution.lead AS pollute FROM County, Facility, FacilityPollution WHERE Facility.eis_id = FacilityPollution.eis_id_id AND Facility.county=County.name AND Facility.state_id=County.state_id AND County.id=%s AND FacilityPollution.lead>0 ORDER BY FacilityPollution.lead DESC LIMIT 10;', [county_id]),
+	       'polluters': Facility.objects.raw('SELECT Facility.eis_id, Facility.name, Facility.city, FacilityPollution.lead AS pollute FROM County, Facility, FacilityPollution WHERE Facility.eis_id = FacilityPollution.eis_id_id AND Facility.county=County.name AND Facility.state_id=County.state_id AND County.id=%s AND FacilityPollution.lead>0 ORDER BY FacilityPollution.lead DESC LIMIT 10;', [county_id]),
 	       'county': c,
-	       'pollutant': pollutant
+	       'pollutant': pollutant,
+		   'aggPollutant': cursor.fetchone()
 	        })
 	elif pollutant=='mercury':
+		cursor.execute('SELECT sum(mercury), count(mercury) FROM County, Facility, FacilityPollution WHERE County.id = %s AND County.name = Facility.county AND County.state_id = Facility.state_id AND Facility.eis_id = FacilityPollution.eis_id_id GROUP BY County.name;',[county_id])			
 		return render(request, 'pollugraphics/pollutant.html',{
-	       'polluters': Facility.objects.raw('SELECT Facility.eis_id, Facility.name, Facility.address, Facility.city, FacilityPollution.mercury AS pollute FROM County, Facility, FacilityPollution WHERE Facility.eis_id = FacilityPollution.eis_id_id AND Facility.county=County.name AND Facility.state_id=County.state_id AND County.id=%s AND FacilityPollution.mercury>0 ORDER BY FacilityPollution.mercury DESC LIMIT 10;', [county_id]),
+	       'polluters': Facility.objects.raw('SELECT Facility.eis_id, Facility.name, Facility.city, FacilityPollution.mercury AS pollute FROM County, Facility, FacilityPollution WHERE Facility.eis_id = FacilityPollution.eis_id_id AND Facility.county=County.name AND Facility.state_id=County.state_id AND County.id=%s AND FacilityPollution.mercury>0 ORDER BY FacilityPollution.mercury DESC LIMIT 10;', [county_id]),
 	       'county': c,
-	       'pollutant': pollutant
+	       'pollutant': pollutant,
+		   'aggPollutant': cursor.fetchone()
 	        })
 	return HttpResponse(facility_id)

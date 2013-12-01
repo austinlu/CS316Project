@@ -1,0 +1,116 @@
+{% extends "pollugraphics/base.html" %}
+
+{% block content %}
+<div id="content">
+<div id="left">
+<h1>{{county1.name}} County, {{county1.state.name}}</h1>
+
+<!-- county demographics data -->
+<h2>Demographic Data</h2>
+
+<ul>
+	<li>Population density: {{county1.population_density}}</li>
+	<li>Median income: {{county1.median_income}}</li>
+	<li>Unemployment rate: {{county1.unemployment_rate}}</li>
+	<li>% with high school degree: {{county1.percent_hs}}</li>
+	<li>% with bachelors degree: {{county1.percent_bachelors}}</li>
+</ul>
+
+<!-- county pollution data -->
+<h2>Industrial Pollution Data</h2>
+<ul>
+	<li><span id="1C">Carbon monoxide (tons): </span>{{aggPollution1.0.normalize}} from <b><a href="../../county/{{county1.id}}/CO">{{aggPollution1.7}} facilities</a></b> </li>
+	<li><span id="1N">Nitrogen oxides (tons): </span>{{aggPollution1.1.normalize}} from <b><a href="../../county/{{county1.id}}/NOx">{{aggPollution1.8}} facilities</a></b> </li>
+	<li><span id="1S">Sulfur dioxide (tons): </span>{{aggPollution1.2.normalize}} from <b><a href="../../county/{{county1.id}}/SO2">{{aggPollution1.9}} facilities</a></b> </li>
+	<li><span id="1P">Particulate matter PM-10 (tons): </span>{{aggPollution1.3.normalize}} from <b><a href="../../county/{{county1.id}}/PM10">{{aggPollution1.10}} facilities</a></b> </li>
+	<li><span id="1L">Lead (tons): </span>{{aggPollution1.4.normalize}} from <b><a href="../../county/{{county1.id}}/lead">{{aggPollution1.11}} facilities</a></b> </li>
+	<li><span id="1M">Mercury (lbs): </span>{{aggPollution1.5.normalize}} from <b><a href="../../county/{{county1.id}}/mercury">{{aggPollution1.12}} facilities</a></b> </li>
+	
+</ul>
+<h3>Find similar counties based on:</h3> 
+<form action="{% url 'pollugraphics:compare_county' county1.id %}" method="get">
+	<!-- {{ form.as_p }} -->
+	<!-- select whether or not to impose same-state restriction -->
+	<label>Restrict search to same state as {{ county1.name }} County? </label>
+	<input type="radio" name="state" value="yes">Yes
+	<input type="radio" name="state" value="no">No
+	<br/>
+	<!-- select a single attribute to sort by -->
+	<label>Compare by:</label>
+	<select name="sort">
+		<option value="population_density">Population Density</option>
+		<option value="median_income">Median Income</option>
+		<option value="unemployment_rate">Unemployment Rate</option>
+		<option value="percent_hs">Percent with HS Degree</option>
+		<option value="percent_bachelors">Percent with Bachelors Degree</option>
+	</select>
+	<input id="submit" type="submit" value="Find similar counties" />
+</form>
+</div>
+
+<div id="right">
+<!-- county name and state -->
+<h1>{{county2.name}} County, {{county2.state.name}}</h1>
+
+<!-- county demographics data -->
+<h2>Demographic Data</h2>
+
+<ul>
+	<li>Population density: {{county2.population_density}}</li>
+	<li>Median income: {{county2.median_income}}</li>
+	<li>Unemployment rate: {{county2.unemployment_rate}}</li>
+	<li>% with high school degree: {{county2.percent_hs}}</li>
+	<li>% with bachelors degree: {{county2.percent_bachelors}}</li>
+</ul>
+
+<!-- county pollution data -->
+<h2>Industrial Pollution Data</h2>
+<ul>
+	<li><span id="2C">Carbon monoxide (tons): </span>{{aggPollution2.0.normalize}} from <b><a href="../../county/{{county2.id}}/CO">{{aggPollution2.7}} facilities</a></b> </li>
+	<li><span id="2N">Nitrogen oxides (tons): </span>{{aggPollution2.1.normalize}} from <b><a href="../../county/{{county2.id}}/NOx">{{aggPollution2.8}} facilities</a></b> </li>
+	<li><span id="2S">Sulfur dioxide (tons): </span>{{aggPollution2.2.normalize}} from <b><a href="../../county/{{county2.id}}/SO2">{{aggPollution2.9}} facilities</a></b> </li>
+	<li><span id="2P">Particulate matter PM-10 (tons): </span>{{aggPollution2.3.normalize}} from <b><a href="../../county/{{county2.id}}/PM10">{{aggPollution2.10}} facilities</a></b> </li>
+	<li><span id="2L">Lead (tons): </span>{{aggPollution2.4.normalize}} from <b><a href="../../county/{{county2.id}}/lead">{{aggPollution2.11}} facilities</a></b> </li>
+	<li><span id="2M">Mercury (lbs): </span>{{aggPollution2.5.normalize}} from <b><a href="../../county/{{county2.id}}/mercury">{{aggPollution2.12}} facilities</a></b> </li>
+	
+</ul>
+<h3>Find similar counties based on:</h3> 
+<form action="{% url 'pollugraphics:compare_county' county2.id %}" method="get">
+	<!-- {{ form.as_p }} -->
+	<!-- select whether or not to impose same-state restriction -->
+	<label>Restrict search to same state as {{ county2.name }} County? </label>
+	<input type="radio" name="state" value="yes">Yes
+	<input type="radio" name="state" value="no">No
+	<br/>
+	<!-- select a single attribute to sort by -->
+	<label>Compare by:</label>
+	<select name="sort">
+		<option value="population_density">Population Density</option>
+		<option value="median_income">Median Income</option>
+		<option value="unemployment_rate">Unemployment Rate</option>
+		<option value="percent_hs">Percent with HS Degree</option>
+		<option value="percent_bachelors">Percent with Bachelors Degree</option>
+	</select>
+	<input id="submit" type="submit" value="Find similar counties" />
+</form>
+</div>
+
+</div>
+
+<script>
+document.getElementById("1C").style.color = ({{aggPollution1.0}} > {{aggPollution2.0}}) ? "#B80000" : "#006600";
+document.getElementById("1N").style.color = ({{aggPollution1.1}} > {{aggPollution2.1}}) ? "#B80000" : "#006600";
+document.getElementById("1S").style.color = ({{aggPollution1.2}} > {{aggPollution2.2}}) ? "#B80000" : "#006600";
+document.getElementById("1P").style.color = ({{aggPollution1.3}} > {{aggPollution2.3}}) ? "#B80000" : "#006600";
+document.getElementById("1L").style.color = ({{aggPollution1.4}} > {{aggPollution2.4}}) ? "#B80000" : "#006600";
+document.getElementById("1M").style.color = ({{aggPollution1.5}} > {{aggPollution2.5}}) ? "#B80000" : "#006600";
+document.getElementById("2C").style.color = ({{aggPollution1.0}} > {{aggPollution2.0}}) ? "#006600" : "#B80000";
+document.getElementById("2N").style.color = ({{aggPollution1.1}} > {{aggPollution2.1}}) ? "#006600" : "#B80000";
+document.getElementById("2S").style.color = ({{aggPollution1.2}} > {{aggPollution2.2}}) ? "#006600" : "#B80000";
+document.getElementById("2P").style.color = ({{aggPollution1.3}} > {{aggPollution2.3}}) ? "#006600" : "#B80000";
+document.getElementById("2L").style.color = ({{aggPollution1.4}} > {{aggPollution2.4}}) ? "#006600" : "#B80000";
+document.getElementById("2M").style.color = ({{aggPollution1.5}} > {{aggPollution2.5}}) ? "#006600" : "#B80000";
+</script>
+{% endblock %}
+
+
