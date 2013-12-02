@@ -40,7 +40,7 @@ Back to <a href="{% url 'pollugraphics:county' county.id %}">county</a>
 		}
 		var data = google.visualization.arrayToDataTable(chartArr);
 		new google.visualization.PieChart(document.getElementById('visualization')).
-			draw(data, {title:"{{pollutant}} emissions in {{county.name}} County by facility"});
+			draw(data, {title:"{{county.name}} County {{pollutant}} emissions by facility"});
 	}
 	google.setOnLoadCallback(drawVisualization);
 </script>
