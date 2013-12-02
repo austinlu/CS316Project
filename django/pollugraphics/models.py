@@ -45,12 +45,12 @@ class Facility(models.Model):
 
 class FacilityPollution(models.Model):
 	eis_id = models.ForeignKey(Facility, primary_key=True)
-	carbon_monoxide = models.DecimalField(decimal_places=10, max_digits=20, null=True, blank=True)
-	nitrogen_oxides = models.DecimalField(decimal_places=10, max_digits=20, null=True, blank=True)
-	sulfur_dioxide = models.DecimalField(decimal_places=10, max_digits=20, null=True, blank=True)
-	particulate_matter_10 = models.DecimalField(decimal_places=10, max_digits=20, null=True, blank=True)
-	lead = models.DecimalField(decimal_places=10, max_digits=20, null=True, blank=True)
-	mercury = models.DecimalField(decimal_places=10, max_digits=20, null=True, blank=True)
+	carbon_monoxide = models.DecimalField(decimal_places=5, max_digits=20, null=True, blank=True)
+	nitrogen_oxides = models.DecimalField(decimal_places=5, max_digits=20, null=True, blank=True)
+	sulfur_dioxide = models.DecimalField(decimal_places=5, max_digits=20, null=True, blank=True)
+	particulate_matter_10 = models.DecimalField(decimal_places=5, max_digits=20, null=True, blank=True)
+	lead = models.DecimalField(decimal_places=5, max_digits=20, null=True, blank=True)
+	mercury = models.DecimalField(decimal_places=5, max_digits=20, null=True, blank=True)
 
 	class Meta:
 		db_table = 'facilitypollution'
