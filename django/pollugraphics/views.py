@@ -26,6 +26,7 @@ def county(request, county_id):
 	cursor = connection.cursor()
 	cursor.execute('SELECT sum(carbon_monoxide), sum(nitrogen_oxides), sum(sulfur_dioxide), sum(particulate_matter_10), sum(lead), sum(mercury), count(*), count(carbon_monoxide),count(nitrogen_oxides), count(sulfur_dioxide), count(particulate_matter_10), count(lead), count(mercury) FROM County, Facility, FacilityPollution WHERE County.id = %s AND County.name = Facility.county AND County.state_id = Facility.state_id AND Facility.eis_id = FacilityPollution.eis_id_id GROUP BY County.name;',[county_id])
 	row = cursor.fetchone()
+	row = tuple((x if x else 0 for x in row))
 
 	return render(request, 'pollugraphics/county.html', {
 		'county': c,
@@ -38,9 +39,9 @@ def compare(request, county_id1, county_id2):
 	c2 = get_object_or_404(County, pk=county_id2)
 	cursor = connection.cursor()
 	cursor.execute('SELECT sum(carbon_monoxide), sum(nitrogen_oxides), sum(sulfur_dioxide), sum(particulate_matter_10), sum(lead), sum(mercury), count(*), count(carbon_monoxide),count(nitrogen_oxides), count(sulfur_dioxide), count(particulate_matter_10), count(lead), count(mercury) FROM County, Facility, FacilityPollution WHERE County.id = %s AND County.name = Facility.county AND County.state_id = Facility.state_id AND Facility.eis_id = FacilityPollution.eis_id_id GROUP BY County.name;',[county_id1])
-	row1 = cursor.fetchone()
+	row1 = tuple((x if x else 0 for x in cursor.fetchone()))
 	cursor.execute('SELECT sum(carbon_monoxide), sum(nitrogen_oxides), sum(sulfur_dioxide), sum(particulate_matter_10), sum(lead), sum(mercury), count(*), count(carbon_monoxide),count(nitrogen_oxides), count(sulfur_dioxide), count(particulate_matter_10), count(lead), count(mercury) FROM County, Facility, FacilityPollution WHERE County.id = %s AND County.name = Facility.county AND County.state_id = Facility.state_id AND Facility.eis_id = FacilityPollution.eis_id_id GROUP BY County.name;',[county_id2])
-	row2 = cursor.fetchone()
+	row2 = tuple((x if x else 0 for x in cursor.fetchone()))
 
 	return render(request, 'pollugraphics/compare.html', {
 		'county1': c1,
