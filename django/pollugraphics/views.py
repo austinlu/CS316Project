@@ -15,6 +15,21 @@ def index(request):
 	})
 	return HttpResponse(template.render(context))
 
+def facility_search(request):
+	return render(request, 'facility_search.html')
+
+def search(request):
+	error = False
+	if "facilityChoice" in request.GET:
+		facilityChoice = request.GET['facilityChoice']
+		if not facilityChoice:
+			error = True
+		else:
+			facility = Facility.objects.filter(name__icontains=facilityChoice)
+			return render(request, 'pollugraphics/facility_search.html',
+				      {'facilities': facility, 'query': facilityChoice})
+	return render(request, 'pollugraphics/facility_search.html', {'error': True})
+
 def county(request, county_id):
 	if request.is_ajax():
 		if request.GET.get('action') == 'compare':

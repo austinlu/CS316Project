@@ -1,0 +1,26 @@
+{% extends "pollugraphics/base.html" %}
+{% block heading %}
+Facility Search
+{% endblock %}
+
+{% block content %}
+{% if error %}
+        <p style="color: red;">Please submit a search term.</p>
+	Go back to <a href="/CS316Project/django/pollugraphics">Home page</a>
+{% else %}
+<p>You searched for: <strong>{{ query }}</strong></p>
+
+{% if facilities %}
+    <p>Found {{ facilities|length }} facilities.</p>
+    <ul>
+        {% for facility in facilities %}
+        <li><a href="/CS316Project/django/pollugraphics/facility/{{facility.eis_id}}">{{ facility.name }}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No facilities matched your search criteria.</p>
+{% endif %}
+
+Back to <a href="/CS316Project/django/pollugraphics">Home page</a>
+{% endif %}
+{% endblock %}
