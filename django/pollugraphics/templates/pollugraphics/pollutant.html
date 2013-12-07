@@ -16,7 +16,7 @@
 <table cellpadding="5%">
 <tr><th>Facility name</th><th>City</th><th>{{pollutant}} emission</th></tr>
 {% for p in polluters %}
-    <tr><td><a href="/CS316Project/django/pollugraphics/facility/{{p.eis_id}}">{{p.name}}</a></td><td>{{p.city}}</td><td>{{p.pollute.normalize}}</td><tr>
+    <tr><td><a href="{% url 'pollugraphics:facility' p.eis_id %}">{{p.name}}</a></td><td>{{p.city}}</td><td>{{p.pollute.normalize}}</td><tr>
 	<script type="text/javascript">
 		chartArr.push(['{{p.name}}', parseFloat("{{p.pollute}}")]);
 		aggPollutantLeft -= parseFloat("{{p.pollute}}");
