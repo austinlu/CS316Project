@@ -1,9 +1,7 @@
 {% extends "pollugraphics/base.html" %}
- 
-{% block heading %}select a county to begin
-{% endblock %}
- 
+  
 {% block content %}
+<h2>Look up one county</h2>
 <form>
 <select name="county" id = "countyChoice">
 {% for c in counties %}
@@ -26,7 +24,7 @@ submitButton.onclick=function(){
 
 <br><br><br>
 
-<b>Search by facility</b>
+<h2>Search by facility</h2>
 
 {% if error %}
         <p style="color: red;">Please submit a search term.</p>
