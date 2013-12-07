@@ -8,6 +8,6 @@ urlpatterns = patterns('',
     url(r'^county/(?P<county_id>\d+)/(?P<pollutant>\w+)/$', views.countyPollution, name='countyPollution'),
 	url(r'^county/similar/(?P<county_id>\d+)/', views.compare_county, name='compare_county'),
 	url(r'^compare/(?P<county_id1>\d+)&(?P<county_id2>\d+)/', views.compare, name='compare'),
-        url(r'^facility_search/$', views.facility_search),
-        url(r'^search/$', views.search)
+    url(r'^facility_search/$', views.facility_search),
+    url(r'^search/$', views.search),
 )
