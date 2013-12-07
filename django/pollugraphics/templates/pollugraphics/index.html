@@ -32,7 +32,7 @@ submitButton.onclick=function(){
         <p style="color: red;">Please submit a search term.</p>
 {% endif %}
 
-<form action="../../django/pollugraphics/search/" method="get">
+<form action="{% url 'pollugraphics:search' %}" method="get">
 Facility name:<input type="text" name="facilityChoice">
 <input type="submit" value="Submit">
 </form>
