@@ -152,12 +152,3 @@ def countyPollution(request, county_id, pollutant):
 		   'aggPollutant': cursor.fetchone()
 	        })
 	return HttpResponse(facility_id)
-
-
-def diff(request):
-	counties = County.objects.order_by('state__name', 'name')
-	template = loader.get_template('pollugraphics/diff.html')
-	context = RequestContext(request, {
-		'counties' : counties,
-	})
-	return HttpResponse(template.render(context))

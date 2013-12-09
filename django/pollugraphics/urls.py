@@ -9,6 +9,5 @@ urlpatterns = patterns('',
 	url(r'^county/similar/(?P<county_id>\d+)/', views.compare_county, name='compare_county'),
 	url(r'^compare/(?P<county_id1>\d+)&(?P<county_id2>\d+)/', views.compare, name='compare'),
     url(r'^facility_search/$', views.facility_search, name='facility_search'),
-    url(r'^search/$', views.search, name='search'),
-    url(r'^diff/$', views.diff, name='diff')
+    url(r'^search/$', views.search, name='search')
 )
